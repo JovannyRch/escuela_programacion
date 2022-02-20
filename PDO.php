@@ -7,6 +7,9 @@ class CustomPDO
     {
 
         $server = 'localhost';
+        //$username = 'u610741374_test';
+        //$database = 'u610741374_test';
+        //$password = 'test1Qasd';
         $username = 'root';
         $database = 'escuela_programacion_db';
         $password = '';
@@ -86,5 +89,63 @@ class CustomPDO
     function getUser($id, $pass)
     {
         return $this->row("SELECT * from usuarios where id_usuario = '$id' and contrasenia = '$pass'");
+    }
+
+    function getMaterias(){
+        return $this->array("SELECT * from materias");
+    }
+
+    function getEstudiantes($id_estudiante = null){
+        if(is_null($id_estudiante)){
+            return $this->array("SELECT * from usuarios where tipo_usuario = 'E'");
+        }
+        return $this->array("SELECT * from usuarios where tipo_usuario = 'E' and id_usuario = $id_estudiante");
+    }
+
+    function consultarCalificacionAlumno($id_usuario, $id_materia){
+        return $this->row("SELECT * from calificaciones where id_usuario = '$id_usuario' and id_materia = $id_materia");
+    }
+
+    function registrarCalificacion($id_usuario, $id_materia, $calificacion){
+        
+        $consulta = $this->consultarCalificacionAlumno($id_usuario, $id_materia);
+        if(is_null($consulta)){ //Insert
+            return $this->insert("INSERT INTO calificaciones(id_usuario, id_materia, calificacion) values('$id_usuario', $id_materia, $calificacion)");
+        }else{   //Update
+            $id_calificacion = $consulta['id_calificacion'];
+            $this->query("UPDATE calificaciones set calificacion = $calificacion where id_calificacion = $id_calificacion");
+            return $id_calificacion;
+        }
+    }
+
+
+    function registrosCalificaciones($id_estudiante = null){
+        $estudiantes = $this->getEstudiantes($id_estudiante);
+        
+        $materias = $this->getMaterias();
+
+        $calificaciones = array();
+        foreach ($estudiantes as $estudiante) {
+            $id_estudiante = $estudiante['id_usuario'];
+            
+            $registrosCalificacionesAlumno = array(); 
+            foreach ($materias as $materia) {
+                $id_materia = $materia['id_materia'];
+                $registroCalificacion = $this->consultarCalificacionAlumno($id_estudiante, $id_materia);
+                if(is_null($registroCalificacion)){
+                    $registrosCalificacionesAlumno[$id_materia] = "--";
+                }else{
+                    $registrosCalificacionesAlumno[$id_materia] = $registroCalificacion["calificacion"];
+                }
+            }
+            $estudiante['calificaciones'] = $registrosCalificacionesAlumno;
+            $calificaciones[] = $estudiante;
+        }
+
+        return array("consulta" => $calificaciones, 'materias' => $materias);
+    }
+
+    function getDatosUsuario($id_usuario){
+        return $this->row("SELECT * from usuarios where id_usuario = '$id_usuario'");
     }
 }

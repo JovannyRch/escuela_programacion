@@ -50,10 +50,10 @@ if (sizeof($_SESSION) > 0) {
                 <?php
                 if ($tipoUsuario == "Profesor") { ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Registra calificación</a>
+                        <a class="nav-link" href="registrar_calificacion.php">Registra calificación</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Consultar</a>
+                        <a class="nav-link" href="profesor_consultar.php">Consultar</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="#">Usuario <?= $tipoUsuario ?></a>
@@ -66,7 +66,7 @@ if (sizeof($_SESSION) > 0) {
                 <?php
                 if ($tipoUsuario == "Alumno") { ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Consultar calificación</a>
+                        <a class="nav-link" href="estudiante_consulta.php">Consultar calificación</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="#">Usuario <?= $tipoUsuario ?></a>

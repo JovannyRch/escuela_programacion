@@ -3,6 +3,7 @@ require 'PDO.php';
 
 $message = null;
 session_start();
+$pdo = new CustomPDO();
 
 if (sizeof($_POST) > 0) {
 
@@ -13,8 +14,10 @@ if (sizeof($_POST) > 0) {
     } else {
         $pass = $_POST['pass'];
         $id = $_POST['id'];
-        $pdo = new CustomPDO();
+        
         $user = $pdo->getUser($id, $pass);
+        print_r($user);
+        
         if (is_null($user)) {
             $message = "ID o contraseña incorrecta";
         } else {

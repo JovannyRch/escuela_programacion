@@ -8,7 +8,7 @@ function hasLetters($pass)
     $validChars = "abcdefghijklmnopqrstuvwxyz";
     $passLower = strtolower($pass);
     for ($i = 0; $i < strlen($passLower); $i++) {
-        if (str_contains($validChars, $passLower[$i])) {
+        if (strpos($validChars, $passLower[$i]) !== false) {
             return true;
         }
     }
@@ -19,7 +19,7 @@ function hasNumbers($pass)
 {
     $validChars = "1234567890";
     for ($i = 0; $i < strlen($pass); $i++) {
-        if (str_contains($validChars, $pass[$i])) {
+        if (strpos($validChars, $pass[$i]) !== false) {
             return true;
         }
     }
@@ -31,7 +31,7 @@ function hasEspecialChars($pass)
     $validChars = "#$-_&%";
     $passLower = strtolower($pass);
     for ($i = 0; $i < strlen($passLower); $i++) {
-        if (str_contains($validChars, $passLower[$i])) {
+        if (strpos($validChars, $passLower[$i]) !== false) {
             return true;
         }
     }
@@ -42,18 +42,15 @@ function validarCampos(&$message)
 {
     if (sizeof($_POST) == 0) {
         return false;
-    }
-
+    }   
     if (!isset($_POST['pass'])) {
         $message = "Ingrese contraseña";
         return false;
     }
-
     if (!isset($_POST['pass2'])) {
         $message = "Ingrese confirmación de la contraseña";
         return false;
     }
-
     if (!isset($_POST['id'])) {
         $message = "Ingrese id del usuario";
         return false;
@@ -63,7 +60,6 @@ function validarCampos(&$message)
         $message = "Ingrese nombre del usuario";
         return false;
     }
-
     $pass = $_POST['pass'];
     $pass2 = $_POST['pass2'];
     $id = $_POST['id'];
@@ -73,17 +69,14 @@ function validarCampos(&$message)
         $message = "Las contraseñas no coinciden";
         return false;
     }
-
     if (strlen($pass) < 8) { //Verificacion contraseña de 8 carácteres al menos
         $message = "La contraseña debe de tener al menos 8 carácteres";
         return false;
     }
-
     if (!hasEspecialChars($pass) || !hasNumbers($pass) || !hasLetters($pass)) {
         $message = "La contraseña debe tener letras y números y al menos un carácter especial (#,$, -_,&,%)";
         return false;
     }
-
 
     return true;
 }
@@ -97,6 +90,7 @@ if (validarCampos($message)) {
     $name = $_POST['name'];
 
     $pdo = new CustomPDO();
+    
     $idUserExists = !is_null($pdo->getUserById($id)); //Validar si el id del usuario existe
     if ($idUserExists) {
         $message = "El id del usuario ya se encuentra ocupado";
