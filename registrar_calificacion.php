@@ -90,7 +90,7 @@ if (sizeof($_SESSION) > 0 && $_SESSION['tipo_usuario'] == "P") { //solo el usuar
                     foreach ($estudiantes as $alumno) {
                     ?>
                         <option value="<?= $alumno['id_usuario'] ?>">
-                            <?= $alumno['nombre'] ?> <?= $alumno['paterno'] ?> <?= $alumno['materno'] ?>
+                        <?= $alumno['id_usuario'] ?> - <?= $alumno['nombre'] ?> <?= $alumno['paterno'] ?> <?= $alumno['materno'] ?>
                         </option>
                     <?php
                     }

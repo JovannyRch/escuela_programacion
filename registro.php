@@ -62,8 +62,6 @@ function validarCampos(&$message)
     }
     $pass = $_POST['pass'];
     $pass2 = $_POST['pass2'];
-    $id = $_POST['id'];
-    $name = $_POST['name'];
 
     if ($pass2 != $pass) { //Verificacion de contraseña y confirmación de contraseña iguales
         $message = "Las contraseñas no coinciden";
@@ -88,6 +86,9 @@ if (validarCampos($message)) {
     $pass2 = $_POST['pass2'];
     $id = $_POST['id'];
     $name = $_POST['name'];
+    $nombre = $_POST['nombre'];
+    $paterno = $_POST['paterno'];
+    $materno = $_POST['materno'];
 
     $pdo = new CustomPDO();
     
@@ -95,7 +96,7 @@ if (validarCampos($message)) {
     if ($idUserExists) {
         $message = "El id del usuario ya se encuentra ocupado";
     } else {
-        $pdo->registrarAlumno($id, $name, $pass); //Registro del alumno 
+        $pdo->registrarAlumno($id, $name, $pass, $nombre, $paterno, $materno); //Registro del alumno 
         $message = "Usuario registrado exitosamente";
     }
 }
@@ -142,20 +143,32 @@ if (validarCampos($message)) {
             <h4>Registro de usuario</h4>
             <form method="post" action="registro.php" class="mt-3" style="min-width: 30vw">
                 <div class=" form-group">
-                    <label for="id">Id Usuario</label>
-                    <input type="text" name="id" class="form-control" placeholder="Ingresa el id del usuario">
+                    <label for="id">Matrícula</label>
+                    <input type="text" required name="id" class="form-control" placeholder="Ingresa la matrícula del alumno">
                 </div>
                 <div class=" form-group">
-                    <label for="name">Nombre del usuario</label>
-                    <input type="text" name="name" class="form-control" placeholder="Ingresa nombre del usuario">
+                    <label for="nombre">Nombre del alumno</label>
+                    <input type="text" required name="nombre" class="form-control" placeholder="Ingresa nombre del alumno">
+                </div>
+                <div class=" form-group">
+                    <label for="paterno">Apellido Paterno</label>
+                    <input type="text" required name="paterno" class="form-control" placeholder="Ingresa el apellido paterno del alumno">
+                </div>
+                <div class=" form-group">
+                    <label for="materno">Apellido Materno</label>
+                    <input type="text" required name="materno" class="form-control" placeholder="Ingresa el apellido materno del alumno">
+                </div>
+                <div class=" form-group">
+                    <label for="name">Nombre de usuario</label>
+                    <input type="text" required name="name" class="form-control" placeholder="Ingresa nombre de usuario">
                 </div>
                 <div class=" form-group">
                     <label for="pass">Contraseña</label>
-                    <input type="password" name="pass" class="form-control" placeholder="Ingresa la contraseña">
+                    <input type="password" required name="pass" class="form-control" placeholder="Ingresa la contraseña">
                 </div>
                 <div class=" form-group">
                     <label for="pass2">Confirmación de la contraseña</label>
-                    <input type="password" name="pass2" class="form-control" placeholder="Ingresa nuevamente">
+                    <input type="password" required name="pass2" class="form-control" placeholder="Ingresa nuevamente">
                 </div>
                 <button type="submit" class="btn btn-success">Registrarse</button>
             </form>

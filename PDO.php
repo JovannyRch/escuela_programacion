@@ -81,9 +81,9 @@ class CustomPDO
         return $this->row("SELECT * from usuarios where id_usuario = '$id'");
     }
 
-    function registrarAlumno($id, $nombre, $pass)
+    function registrarAlumno($id, $nombre_usuario, $pass, $nombre, $paterno, $materno)
     {
-        return $this->insert("INSERT INTO usuarios(id_usuario, nombre_usuario, contrasenia, tipo_usuario) values('$id', '$nombre', '$pass', 'E')");
+        return $this->insert("INSERT INTO usuarios(id_usuario, nombre_usuario, contrasenia, tipo_usuario, nombre, paterno, materno) values('$id', '$nombre_usuario', '$pass', 'E', '$nombre', '$paterno', '$materno')");
     }
 
     function getUser($id, $pass)
